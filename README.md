@@ -6,10 +6,10 @@
 [![CI/CD](https://img.shields.io/badge/CI%2FCD-GitHub%20Actions-2088FF?style=flat-square&logo=github-actions)](https://github.com/features/actions)
 [![Code Style](https://img.shields.io/badge/Code%20Style-ESLint%20%2B%20Prettier-4B32C3?style=flat-square&logo=eslint)](https://eslint.org/)
 [![Accessibility](https://img.shields.io/badge/Accessibility-axe--core-FA3C00?style=flat-square&logo=axe)](https://www.deque.com/axe/)
-[![Report](https://img.shields.io/badge/Report-Allure-FF6B6B?style=flat-square)](https://docs.qameta.io/allure/)
+[![Report](https://img.shields.io/badge/Report-Allure%20%2B%20HTML-FF6B6B?style=flat-square)](https://docs.qameta.io/allure/)
 [![Pages](https://img.shields.io/badge/Pages-GitHub%20Pages-222222?style=flat-square&logo=github)](https://pages.github.com/)
 
-Framework de automatización web con Playwright y TypeScript para [SauceDemo](https://www.saucedemo.com).
+Framework de automatización web con Playwright y TypeScript para [SauceDemo](https://www.saucedemo.com). Implementa Page Object Model, custom fixtures, tests de accesibilidad con axe-core y reportes con Allure + HTML.
 
 ## Reporte de Pruebas
 
@@ -110,6 +110,7 @@ npx playwright install
 ### BasePage
 - `navigate(path)` - Navegar a una ruta
 - `getTitle()` - Obtener título de la página
+- `waitForSelector(selector, timeout)` - Esperar por elemento
 - `isVisible(selector)` - Verificar si un elemento es visible
 - `click(selector)` - Hacer clic en un elemento
 - `fill(selector, value)` - Llenar un campo
@@ -125,6 +126,7 @@ npx playwright install
 - `getItemNames()` - Nombres de productos
 - `getItemPrices()` - Precios de productos
 - `addToCart(index)` - Agregar al carrito
+- `removeFromCart(index)` - Eliminar del carrito
 - `goToCart()` - Ir al carrito
 - `getCartBadgeCount()` - Contador del carrito
 - `sortBy(option)` - Ordenar productos
@@ -132,6 +134,7 @@ npx playwright install
 ### CartPage
 - `isCartDisplayed()` - Verificar carrito
 - `getItemCount()` - Cantidad de items
+- `getItemNames()` - Nombres de items
 - `removeItem(index)` - Eliminar item
 - `checkout()` - Ir al checkout
 - `continueShopping()` - Volver a comprar
@@ -142,6 +145,7 @@ npx playwright install
 - `finishCheckout()` - Finalizar compra
 - `cancelCheckout()` - Cancelar compra
 - `getCompleteMessage()` - Obtener mensaje de confirmación
+- `backToProducts()` - Volver a productos
 
 ## Custom Fixtures
 
@@ -175,37 +179,51 @@ test("ejemplo", async ({ checkoutPage }) => {
 });
 ```
 
-## Tests incluidos
+## Tests incluidos (30)
 
-### Login
+### Login (5)
 - Login exitoso
 - Error con usuario bloqueado
 - Error con credenciales inválidas
-- Error con campos vacíos
+- Error con contraseña vacía
+- Error con usuario vacío
 
-### Inventario
-- Mostrar productos
-- Agregar productos al carrito
-- Ordenar productos
+### Inventario (8)
+- Mostrar todos los productos
+- Mostrar nombres de productos
+- Mostrar precios de productos
+- Agregar producto al carrito
+- Agregar múltiples productos
+- Ordenar precio bajo-alto
+- Ordenar precio alto-bajo
+- Ordenar nombre A-Z
 
-### Carrito
-- Agregar/eliminar productos
-- Navegación
+### Carrito (5)
+- Agregar producto y ver en carrito
+- Agregar múltiples productos
+- Eliminar producto del carrito
+- Continuar comprando
+- Mostrar nombre del producto en carrito
 
-### Checkout
-- Completar compra
+### Checkout (6)
+- Completar compra exitosamente
 - Cancelar compra
-- Validaciones de campos
+- Error nombre faltante
+- Error apellido faltante
+- Error código postal faltante
+- Volver a productos después de compra
 
-### Accesibilidad (axe-core)
-- Violaciones de accesibilidad
+### Accesibilidad - axe-core (6)
+- Violaciones de accesibilidad (critical/serious)
 - Navegación por teclado
-- Atributos ARIA
+- Visibilidad de mensajes de error
 - Jerarquía de encabezados
+- Atributo lang en HTML
+- Nombres accesibles en botones y campos
 
 ## Website Under Test
 
-[SauceDemo](https://www.saucedemo.com) - Tienda de demostración para testing.
+[SauceDemo](https://www.saucedemo.com) - Tienda de demostración para testing automatizado.
 
 ## Tecnologías
 
@@ -215,6 +233,6 @@ test("ejemplo", async ({ checkoutPage }) => {
 - Page Object Model
 - GitHub Actions (CI/CD)
 - ESLint + Prettier (Code Quality)
-- axe-core (Accessibility Testing)
+- axe-core / @axe-core/playwright (Accessibility Testing)
 - Allure (Advanced Reports)
 - GitHub Pages (Report Deployment)
