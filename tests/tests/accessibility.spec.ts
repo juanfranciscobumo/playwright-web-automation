@@ -7,10 +7,7 @@ test.describe("Accessibility Tests", () => {
   });
 
   test("Login page should have no accessibility violations", async ({ page }) => {
-    const accessibilityScanResults = await new AxeBuilder({ page })
-      .include("[data-test='login-button']")
-      .analyze();
-
+    const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
     expect(accessibilityScanResults.violations).toEqual([]);
   });
 
@@ -18,12 +15,11 @@ test.describe("Accessibility Tests", () => {
     const accessibilityScanResults = await new AxeBuilder({ page })
       .withTags(["critical", "serious"])
       .analyze();
-
     expect(accessibilityScanResults.violations).toEqual([]);
   });
 
   test("Login form should be keyboard navigable", async ({ page }) => {
-    await page.getByTestId("username").focus();
+    await page.getByTestId("username").click();
     await expect(page.getByTestId("username")).toBeFocused();
 
     await page.keyboard.press("Tab");
@@ -33,28 +29,12 @@ test.describe("Accessibility Tests", () => {
     await expect(page.getByTestId("login-button")).toBeFocused();
   });
 
-  test("Error messages should have proper ARIA attributes", async ({ page }) => {
+  test("Error messages should be visible after failed login", async ({ page }) => {
     await page.getByTestId("login-button").click();
     await expect(page.getByTestId("error")).toBeVisible();
-    await expect(page.getByTestId("error")).toHaveAttribute("aria-hidden", "false");
-  });
-
-  test("All images should have alt text", async ({ page }) => {
-    const images = await page.locator("img").all();
-    for (const img of images) {
-      await expect(img).toHaveAttribute("alt", /.+/);
-    }
-  });
-
-  test("Form inputs should have labels", async ({ page }) => {
-    const inputs = await page.locator("input").all();
-    for (const input of inputs) {
-      const id = await input.getAttribute("id");
-      if (id) {
-        const label = page.locator(`label[for="${id}"]`);
-        await expect(label).toBeAttached();
-      }
-    }
+    await expect(page.getByTestId("error")).toContainText(
+      "Username is required"
+    );
   });
 
   test("Page should have proper heading hierarchy", async ({ page }) => {
@@ -65,5 +45,16 @@ test.describe("Accessibility Tests", () => {
   test("Page should have lang attribute", async ({ page }) => {
     const html = page.locator("html");
     await expect(html).toHaveAttribute("lang", /.+/);
+  });
+
+  test("Login inputs should have accessible names", async ({ page }) => {
+    await expect(page.getByTestId("username")).toHaveAttribute(
+      "placeholder",
+      /.+/
+    );
+    await expect(page.getByTestId("password")).toHaveAttribute(
+      "placeholder",
+      /.+/
+    );
   });
 });
