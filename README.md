@@ -1,14 +1,49 @@
 # Playwright Web Automation
 
+[![Playwright](https://img.shields.io/badge/Playwright-1.40%2B-2EAD33?style=flat-square&logo=playwright)](https://playwright.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.3.0-3178C6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-20%2B-339933?style=flat-square&logo=node.js)](https://nodejs.org/)
+[![CI/CD](https://img.shields.io/badge/CI%2FCD-GitHub%20Actions-2088FF?style=flat-square&logo=github-actions)](https://github.com/features/actions)
+[![Code Style](https://img.shields.io/badge/Code%20Style-ESLint%20%2B%20Prettier-4B32C3?style=flat-square&logo=eslint)](https://eslint.org/)
+[![Accessibility](https://img.shields.io/badge/Accessibility-axe--core-FA3C00?style=flat-square&logo=axe)](https://www.deque.com/axe/)
+[![Report](https://img.shields.io/badge/Report-Allure-FF6B6B?style=flat-square)](https://docs.qameta.io/allure/)
+[![Pages](https://img.shields.io/badge/Pages-GitHub%20Pages-222222?style=flat-square&logo=github)](https://pages.github.com/)
+
 Framework de automatización web con Playwright y TypeScript para [SauceDemo](https://www.saucedemo.com).
 
 ## Reporte de Pruebas
 
 Ver reporte en GitHub Pages: https://juanfranciscobumo.github.io/playwright-web-automation/
 
+## Arquitectura
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│              Playwright Web Automation                       │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐     │
+│  │   Test      │    │  Page       │    │  Custom     │     │
+│  │   Specs     │───▶│  Objects    │───▶│  Fixtures   │     │
+│  └─────────────┘    └─────────────┘    └─────────────┘     │
+│         │                  │                  │             │
+│         ▼                  ▼                  ▼             │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │              SauceDemo (Web App)                     │   │
+│  └─────────────────────────────────────────────────────┘   │
+│                          │                                  │
+│                          ▼                                  │
+│  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐     │
+│  │  HTML       │    │   axe-core  │    │  GitHub     │     │
+│  │  Reporter   │    │  (A11y)     │    │  Pages      │     │
+│  └─────────────┘    └─────────────┘    └─────────────┘     │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
 ## Requisitos previos
 
-- Node.js >= 18
+- Node.js >= 20
 - npm o yarn
 
 ## Instalación
@@ -30,11 +65,26 @@ npx playwright install
 | `npm run test:inventory` | Ejecuta tests de inventario |
 | `npm run test:cart` | Ejecuta tests de carrito |
 | `npm run test:checkout` | Ejecuta tests de checkout |
+| `npm run test:accessibility` | Ejecuta tests de accesibilidad |
+| `npm run test:dev` | Ejecuta tests en ambiente dev |
+| `npm run test:staging` | Ejecuta tests en ambiente staging |
+| `npm run test:prod` | Ejecuta tests en ambiente production |
 | `npm run report` | Abre el reporte HTML |
+| `npm run allure:generate` | Genera reporte Allure |
+| `npm run allure:open` | Abre reporte Allure |
+| `npm run lint` | Verifica código con ESLint |
+| `npm run lint:fix` | Corrige problemas de ESLint |
+| `npm run format` | Formatea código con Prettier |
+| `npm run format:check` | Verifica formateo con Prettier |
 
 ## Estructura del proyecto
 
 ```
+├── config/
+│   └── environments/        # Configuración por ambiente
+│       ├── dev.json
+│       ├── staging.json
+│       └── prod.json
 ├── fixtures/
 │   └── test-data.ts           # Datos de prueba y fixtures
 ├── pages/                     # Page Objects
@@ -48,8 +98,11 @@ npx playwright install
 │       ├── login.spec.ts
 │       ├── inventory.spec.ts
 │       ├── cart.spec.ts
-│       └── checkout.spec.ts
-└── playwright.config.ts
+│       ├── checkout.spec.ts
+│       └── accessibility.spec.ts
+├── .eslintrc.json             # Configuración ESLint
+├── .prettierrc                # Configuración Prettier
+└── playwright.config.ts       # Configuración principal
 ```
 
 ## Page Objects
@@ -144,6 +197,12 @@ test("ejemplo", async ({ checkoutPage }) => {
 - Cancelar compra
 - Validaciones de campos
 
+### Accesibilidad (axe-core)
+- Violaciones de accesibilidad
+- Navegación por teclado
+- Atributos ARIA
+- Jerarquía de encabezados
+
 ## Website Under Test
 
 [SauceDemo](https://www.saucedemo.com) - Tienda de demostración para testing.
@@ -152,4 +211,10 @@ test("ejemplo", async ({ checkoutPage }) => {
 
 - Playwright 1.40+
 - TypeScript 5
+- Node.js 20+
 - Page Object Model
+- GitHub Actions (CI/CD)
+- ESLint + Prettier (Code Quality)
+- axe-core (Accessibility Testing)
+- Allure (Advanced Reports)
+- GitHub Pages (Report Deployment)
