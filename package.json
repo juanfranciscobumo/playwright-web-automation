@@ -1,0 +1,21 @@
+{
+  "name": "playwright-web-automation",
+  "version": "1.0.0",
+  "description": "Automatización web con Playwright y TypeScript",
+  "scripts": {
+    "test": "npx playwright test",
+    "test:headed": "npx playwright test --headed",
+    "test:ui": "npx playwright test --ui",
+    "test:debug": "npx playwright test --debug",
+    "test:login": "npx playwright test tests/tests/login.spec.ts",
+    "test:inventory": "npx playwright test tests/tests/inventory.spec.ts",
+    "test:cart": "npx playwright test tests/tests/cart.spec.ts",
+    "test:checkout": "npx playwright test tests/tests/checkout.spec.ts",
+    "report": "npx playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "typescript": "^5.3.0",
+    "@types/node": "^20.0.0"
+  }
+}
