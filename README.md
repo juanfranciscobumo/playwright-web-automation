@@ -2,6 +2,10 @@
 
 Framework de automatización web con Playwright y TypeScript para [SauceDemo](https://www.saucedemo.com).
 
+## Reporte de Pruebas
+
+Ver reporte en GitHub Pages: https://juanfranciscobumo.github.io/playwright-web-automation/
+
 ## Requisitos previos
 
 - Node.js >= 18
